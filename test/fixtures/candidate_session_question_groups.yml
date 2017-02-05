@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  candidate_session_id: 
+  question_group_id: 
+  is_done: false
+
+two:
+  candidate_session_id: 
+  question_group_id: 
+  is_done: false

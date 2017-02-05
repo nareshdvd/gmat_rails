@@ -1,0 +1,38 @@
+<div class="row">
+  <h1 class="col-sm-6">Listing Levels</h1>
+  <div class="col-sm-6">
+    <%= link_to new_level_path, class: 'btn btn-primary pull-right' do %>
+      <i class="glyphicon glyphicon-plus"></i> Add New Level
+    <% end %>
+  </div>
+</div>
+
+<div class="row mt-10">
+  <div class="col-sm-12">
+    <table class="table table-bordered table-striped mt-10">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Question limit</th>
+          <th>Question score</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @levels.each do |level| %>
+          <tr>
+            <td><%= level.title %></td>
+            <td><%= level.description %></td>
+            <td><%= level.question_limit %></td>
+            <td><%= level.question_score %></td>
+            <td><%= link_to 'Show', level %></td>
+            <td><%= link_to 'Edit', edit_level_path(level) %></td>
+            <td><%= link_to 'Destroy', level, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

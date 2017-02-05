@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @level.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @level.description %>
+</p>
+
+<p>
+  <strong>Question limit:</strong>
+  <%= @level.question_limit %>
+</p>
+
+<p>
+  <strong>Question score:</strong>
+  <%= @level.question_score %>
+</p>
+
+<%= link_to 'Edit', edit_level_path(@level) %> |
+<%= link_to 'Back', levels_path %>

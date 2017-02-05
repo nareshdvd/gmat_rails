@@ -1,0 +1,23 @@
+<%= form_for @question_group, :html => { :class => "form-horizontal question_group" } do |f| %>
+  <%= render :partial => 'question_groups/form', locals: {f: f} %>
+  <% @question_group.questions.each_with_index do |question, inx| %>
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Question <%= inx + 1 %></div>
+          <div class="panel-body">
+            <%= f.fields_for :questions, question do |builder| %>
+              <%= render :partial => 'questions/form', locals: {f: builder, question: question} %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), questions_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>

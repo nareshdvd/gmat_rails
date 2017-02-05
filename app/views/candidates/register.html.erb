@@ -1,0 +1,39 @@
+<%= form_for @candidate do |f| %>
+  <div class="form-group">
+    <%= col_sm(12) do %>
+      <div class="row">
+        <%= f.label :email, class: 'control-label col-sm-3' %>
+        <div class="col-sm-8">
+          <%= f.text_field :email, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= col_sm(12) do %>
+      <div class="row">
+        <%= f.label :password, class: 'control-label col-sm-3' %>
+        <div class="col-sm-8">
+          <%= f.text_field :password, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= col_sm(12) do %>
+      <div class="row">
+        <%= f.label :password_confirmation, class: 'control-label col-sm-3' %>
+        <div class="col-sm-8">
+          <%= f.text_field :password_confirmation, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= col_sm_offset(9, 3) do %>
+      <button class="btn btn-primary">Register</button>
+    <% end %>
+  </div>
+<% end %>

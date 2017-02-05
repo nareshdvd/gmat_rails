@@ -1,0 +1,39 @@
+<div class="form-group">
+  <%= f.label :description, :class => 'control-label col-lg-2' %>
+  <div class="col-lg-10">
+    <%= f.text_area :description, :class => 'form-control' %>
+  </div>
+  <%=f.error_span(:description) %>
+</div>
+<div class="form-group">
+  <%= f.label :level_id, :class => 'control-label col-lg-2' %>
+  <div class="col-lg-10">
+    <%= f.select :level_id, options_for_select(Level.select("id, title").map{|level|[level.title, level.id]}, f.object.level_id), {include_blank: true}, class: 'form-control' %>
+  </div>
+  <%=f.error_span(:level_id) %>
+</div>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">Answer Options</div>
+      <div class="panel-body">
+        <% question.options.each_with_index do |option, inx| %>
+          <%= f.fields_for :options, option do |builder| %>
+            <%= builder.hidden_field :id %>
+            <div class="form-group">
+              <div class="col-lg-offset-2 col-lg-10">
+                <%= builder.label :description, :class => 'control-label col-lg-2' do %>
+                  Option <%= inx + 1 %>
+                <% end %>
+                <div class="col-lg-10">
+                  <%= builder.text_area :description, :class => 'form-control' %>
+                </div>
+                <%=builder.error_span(:description) %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

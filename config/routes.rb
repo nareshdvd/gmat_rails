@@ -12,6 +12,14 @@ Rails.application.routes.draw do
   get "candidate/:session_question_group_id/question/:session_question_group_question_id" => "candidates#show_question", as: "candidate_question"
   get "candidate/message" => "candidates#show_message", as: "show_message"
   patch "candidate/:session_question_group_id/question/:session_question_group_question_id" => "candidates#answer_question", as: "answer_question"
+
+
+  get "candidate/session/:candidate_sesion_token/question/:question_number" => "candidates#show_session_question", as: "candidate_session_question"
+
+  patch "candidate/session/:candidate_sesion_token/question/:question_number" => "candidates#answer_session_question", as: "answer_candidate_session_question"
+
+
+
   resources :candidates
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

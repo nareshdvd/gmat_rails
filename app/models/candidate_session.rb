@@ -6,11 +6,11 @@ class CandidateSession < ActiveRecord::Base
   has_many :candidate_session_question_groups
 
   def finish_time
-    created_at + GmatConstant.candidate_session_time.hours
+    created_at + GmatConstant.get("candidate_session_time").hour
   end
 
   def next_session_min_time
-    finish_time + GmatConstant.next_session_enabled_after.hours
+    finish_time + GmatConstant.get("next_session_enabled_after").hour
   end
 
   def finished?
@@ -22,7 +22,7 @@ class CandidateSession < ActiveRecord::Base
   end
 
   def questions_finished?
-    candidate_session_question_groups.count == GmatConstant.get('question_settings')['total_questions']
+    candidate_session_question_groups.last.session_question_group_questions.last.question_number >= GmatConstant.get('question_settings')['total_questions']
   end
 
   def last_session_question_group

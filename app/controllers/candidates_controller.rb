@@ -1,6 +1,7 @@
 class CandidatesController < ApplicationController
   before_filter :get_session, only: [:start_test, :show_question, :answer_question]
-  before_filter :set_candidate, only: [:start_test, :show_question, :answer_question]
+  before_filter :set_candidate, only: [:start_test, :show_question, :answer_question, :show_session_question, :answer_session_question]
+  before_filter :get_session_by_token, only: [:show_session_question, :answer_session_question]
   skip_before_filter :authenticate_user!, only: [:new, :create]
   def new
     respond_to do |format|
@@ -22,6 +23,10 @@ class CandidatesController < ApplicationController
     @candidate_session = @candidate.get_session()
   end
 
+  def get_session_by_token
+    @candidate_session = @candidate.candidate_sessions.where(token: params[:candidate_sesion_token]).first
+  end
+
   def set_candidate
     @candidate = Candidate.find_by_id(current_user.id)
   end
@@ -32,30 +37,92 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def show_session_question
+    respond_to do |format|
+      if @candidate_session.expired?
+        flash[:error_message] = "Next session will be opened for you after #{@candidate.new_session_eligibility_datetime}"
+        format.html {redirect_to show_message_path}
+      elsif @candidate_session.finished?
+        flash[:error_message] = "Test Finished"
+        format.html {redirect_to show_message_path}
+      else
+        @session_question_group = @candidate_session.candidate_session_question_groups.last
+        @session_question_group_question = @session_question_group.session_question_group_questions.where("option_id IS NULL").first
+        if @session_question_group_question.present?
+          if @session_question_group_question.question_number == params[:question_number].to_i
+            format.html
+          else
+            flash[:error_message] = "Error Occurred"
+            format.html {redirect_to show_message_path}
+          end
+        else
+          flash[:error_message] = "Error Occurred"
+          format.html {redirect_to show_message_path}
+        end
+      end
+    end
+  end
+
+  def answer_session_question
+    option_id = answer_option_params[:option_id]
+    respond_to do |format|
+      if @candidate_session.expired?
+        flash[:error_message] = "Next session will be opened for you after #{@candidate.new_session_eligibility_datetime}"
+        format.html {redirect_to show_message_path}
+      elsif @candidate_session.finished?
+        flash[:error_message] = "Test Finished"
+        format.html {redirect_to show_message_path}
+      else
+        @session_question_group = @candidate_session.candidate_session_question_groups.last
+        @session_question_group_question = @session_question_group.session_question_group_questions.where("option_id IS NULL").first
+        if @session_question_group_question.present?
+          if @session_question_group_question.question_number == params[:question_number].to_i
+            @session_question_group_question.option_id = option_id
+            @session_question_group_question.save
+
+            @session_question_group_question = @session_question_group.session_question_group_questions.where("option_id IS NULL").first
+            if @session_question_group_question.blank?
+              @session_question_group = @candidate_session.create_session_question_group()
+              @session_question_group_question = @session_question_group.session_question_group_questions.first
+            end
+
+            format.html {redirect_to candidate_session_question_path(candidate_sesion_token: @candidate_session.token, question_number: @session_question_group_question.question_number)}
+          else
+            flash[:error_message] = "Error Occurred"
+            format.html {redirect_to show_message_path}
+          end
+        else
+          flash[:error_message] = "Error Occurred"
+          format.html {redirect_to show_message_path}
+        end
+      end
+    end
+  end
+
   def start_test
     respond_to do |format|
       if @candidate_session.blank?
         if @candidate.eligible_for_new_session?
           @candidate_session = @candidate.create_session()
           session_question_group = @candidate_session.create_session_question_group()
-          format.html {redirect_to candidate_question_path(session_question_group, session_question_group.session_question_group_questions.first)}
+          format.html {redirect_to candidate_session_question_path(candidate_sesion_token: @candidate_session.token, question_number: session_question_group.session_question_group_questions.first.question_number)}
         else
           flash[:error_message] = "Next session will be opened for you after #{@candidate.new_session_eligibility_datetime}"
           format.html {redirect_to show_message_path}
         end
       else
-        if @candidate_session.candidate_session_question_groups.count == 0
-          session_question_group = @candidate_session.create_session_question_group()
-          format.html {redirect_to candidate_question_path(session_question_group, session_question_group.session_question_group_questions.first)}
-        else
-          last_session_question_group = @candidate_session.last_session_question_group
-          if last_session_question_group.is_done?
-            session_question_group = @candidate_session.create_session_question_group()
-            format.html {redirect_to candidate_question_path(session_question_group, session_question_group.session_question_group_questions.first)}
-          else
-            format.html {redirect_to candidate_question_path(last_session_question_group, last_session_question_group.session_question_group_questions.where(option_id: nil).first)}
-          end
-        end
+        # if @candidate_session.candidate_session_question_groups.count == 0
+        #   session_question_group = @candidate_session.create_session_question_group()
+        #   format.html {redirect_to candidate_question_path(session_question_group, session_question_group.session_question_group_questions.first)}
+        # else
+        #   last_session_question_group = @candidate_session.last_session_question_group
+        #   if last_session_question_group.is_done?
+        #     session_question_group = @candidate_session.create_session_question_group()
+        #     format.html {redirect_to candidate_question_path(session_question_group, session_question_group.session_question_group_questions.first)}
+        #   else
+        #     format.html {redirect_to candidate_question_path(last_session_question_group, last_session_question_group.session_question_group_questions.where(option_id: nil).first)}
+        #   end
+        # end
       end
     end
   end

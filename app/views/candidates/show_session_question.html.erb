@@ -1,0 +1,25 @@
+Question Level: <%= @session_question_group_question.question.level.try(:title) %>
+Question Group Level: <%= @session_question_group.question_group.level.try(:title) %>
+<%= form_for([@session_question_group, @session_question_group_question], url: answer_candidate_session_question_path(params[:candidate_sesion_token], params[:question_number]), html: {class: "form-horizontal"}) do |f| %>
+  <div class="row">
+    <div class="col-sm-8">
+      <%= @session_question_group_question.question.description %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <% @session_question_group_question.question.options.each do |option| %>
+        <div class="row">
+          <div class="col-sm-12">
+            <%= f.radio_button :option_id, option.id %>&nbsp;<%= option.description %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <button type="submit">Submit</button>
+    </div>
+  </div>
+<% end %>

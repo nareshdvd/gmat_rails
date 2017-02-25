@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -47,6 +47,6 @@ group :development do
   gem 'pry-rails'
 end
 gem 'mysql2'
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'twitter-bootstrap-rails', '~> 3.2'
 gem 'devise'
 

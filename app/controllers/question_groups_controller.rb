@@ -16,7 +16,7 @@ class QuestionGroupsController < ApplicationController
   def new
     @question_group = QuestionGroup.new
     4.times { @question_group.questions.build }
-    @question_group.questions.each {|question| 4.times { question.options.build } }
+    @question_group.questions.each {|question| 5.times { question.options.build } }
     respond_to do |format|
       format.html {render template: 'question_groups/new/new'}
     end
@@ -34,7 +34,6 @@ class QuestionGroupsController < ApplicationController
   # POST /question_groups
   # POST /question_groups.json
   def create
-    debugger
     @question_group = QuestionGroup.new(question_group_params)
 
     respond_to do |format|

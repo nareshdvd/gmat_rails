@@ -43,7 +43,7 @@ class QuestionGroupsController < ApplicationController
     end
     respond_to do |format|
       if @question_group.save
-        format.html { redirect_to question_groups_url, notice: 'Question group was successfully created.' }
+        format.html { redirect_to question_groups_url, notice: "Question group was successfully created. unique id is: #{@question_group.id}" }
         format.json { render :show, status: :created, location: @question_group }
       else
         format.html { render :new }

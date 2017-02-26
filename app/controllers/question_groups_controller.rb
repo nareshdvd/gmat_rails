@@ -14,20 +14,11 @@ class QuestionGroupsController < ApplicationController
 
   # GET /question_groups/new
   def new
-    # @question_group = QuestionGroup.new(category_id: 2)
-    # @category = Category.find(@question_group.category_id)
-    # new_question_inx = Category.find(@question_group.category_id).question_groups.count + 1
-    # @question_group.save()
-    # question = @question_group.questions.build(description: "Question #{new_question_inx} #{@category.title}", level_id: Level.find_by_title("High").id)
-    # question.save
-
     @question_group = QuestionGroup.new
-    question = @question_group.questions.build
-    4.times do |i|
-      question.options.build
-    end
+    4.times { @question_group.questions.build }
+    @question_group.questions.each {|question| 4.times { question.options.build } }
     respond_to do |format|
-      format.html {render template: 'questions/new_passage_question'}
+      format.html {render template: 'question_groups/new/new'}
     end
   end
 
@@ -36,18 +27,19 @@ class QuestionGroupsController < ApplicationController
     @question_group = QuestionGroup.find_by_id(params[:id])
     question = @question_group.questions.first
     respond_to do |format|
-      format.html {render template: 'questions/edit_passage_question'}
+      format.html {render template: 'question_groups/new/edit'}
     end
   end
 
   # POST /question_groups
   # POST /question_groups.json
   def create
+    debugger
     @question_group = QuestionGroup.new(question_group_params)
 
     respond_to do |format|
       if @question_group.save
-        format.html { redirect_to @question_group, notice: 'Question group was successfully created.' }
+        format.html { redirect_to question_groups_url, notice: 'Question group was successfully created.' }
         format.json { render :show, status: :created, location: @question_group }
       else
         format.html { render :new }
@@ -61,7 +53,7 @@ class QuestionGroupsController < ApplicationController
   def update
     respond_to do |format|
       if @question_group.update(question_group_params)
-        format.html { redirect_to @question_group, notice: 'Question group was successfully updated.' }
+        format.html { redirect_to question_groups_url, notice: 'Question group was successfully updated.' }
         format.json { render :show, status: :ok, location: @question_group }
       else
         format.html { render :edit }
@@ -88,6 +80,6 @@ class QuestionGroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_group_params
-      params.require(:question_group).permit(:description, :category_id, questions_attributes: [:id, :description, :option_count, :category_id, :level_id, {options_attributes: [:id, :description]}])
+      params.require(:question_group).permit(:description, :category_id, :level_id, questions_attributes: [:id, :description, :option_count, {options_attributes: [:id, :description]}])
     end
 end

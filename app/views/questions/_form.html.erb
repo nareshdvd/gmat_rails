@@ -5,13 +5,6 @@
   </div>
   <%=f.error_span(:description) %>
 </div>
-<div class="form-group">
-  <%= f.label :level_id, :class => 'control-label col-lg-2' %>
-  <div class="col-lg-10">
-    <%= f.select :level_id, options_for_select(Level.select("id, title").map{|level|[level.title, level.id]}, f.object.level_id), {include_blank: true}, class: 'form-control' %>
-  </div>
-  <%=f.error_span(:level_id) %>
-</div>
 <div class="row">
   <div class="col-sm-10 col-sm-offset-2">
     <div class="panel panel-default">

@@ -1,0 +1,33 @@
+<style type="text/css">
+  a.panel-heading{
+    display: block;
+    text-decoration: none;
+  }
+</style>
+<div class="row">
+  <div class="col-sm-12">
+    <%= form_for @question_group, :html => { :class => "form-horizontal question_group" } do |f| %>
+      <%= render partial: "question_groups/new/form", locals: {question_group: @question_group, f: f} %>
+      <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+          <%= f.submit nil, :class => 'btn btn-primary' %>
+          <%= link_to t('.cancel', :default => t("helpers.links.cancel")), questions_path, :class => 'btn btn-default' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+  var document_ready_callback = function(){
+    // if question group category is a passage question category then show all 4 questions
+    if(parseInt($(this).val()) == 3){
+      $(".question_group_question_row").show();
+    }else{
+      $(".question_group_question_row").hide();
+      $(".question_group_question_row").first().show();
+    }
+  }
+  $(document).on("ready", document_ready_callback);
+  $(document).on('turbolinks:load', document_ready_callback)
+  $(document).on("change", "#question_group_category_id", document_ready_callback);
+</script>

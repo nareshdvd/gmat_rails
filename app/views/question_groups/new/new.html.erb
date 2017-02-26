@@ -19,11 +19,6 @@
 </div>
 <script type="text/javascript">
   var document_ready_callback = function(){
-    $(".question_group_question_row").hide();
-  }
-  $(document).on("ready", document_ready_callback);
-  $(document).on('page:load', document_ready_callback)
-  $(document).on("change", "#question_group_category_id", function(){
     // if question group category is a passage question category then show all 4 questions
     if(parseInt($(this).val()) == 3){
       $(".question_group_question_row").show();
@@ -31,5 +26,8 @@
       $(".question_group_question_row").hide();
       $(".question_group_question_row").first().show();
     }
-  });
+  }
+  $(document).on("ready", document_ready_callback);
+  $(document).on('turbolinks:load', document_ready_callback)
+  $(document).on("change", "#question_group_category_id", document_ready_callback);
 </script>

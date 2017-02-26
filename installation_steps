@@ -1,0 +1,29 @@
+sudo apt-get update
+sudo apt-get install build-essential libssl-dev libyaml-dev libreadline-dev openssl curl git-core zlib1g-dev bison libxml2-dev libxslt1-dev libcurl4-openssl-dev nodejs libsqlite3-dev sqlite3 libc6-dev ncurses-dev automake libtool bison
+
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+curl -sSL https://get.rvm.io | bash -s stable --rails
+sudo apt-get install -y nodejs
+sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+sudo apt-get install -y apt-transport-https ca-certificates
+sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+sudo apt-get update
+sudo apt-get install -y nginx-extras passenger
+
+
+Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;. For example, you may see this:
+
+Copy# include /etc/nginx/passenger.conf;
+Remove the '#' characters, like this:
+
+Copyinclude /etc/nginx/passenger.conf;
+
+
+sudo service nginx restart
+
+
+
+

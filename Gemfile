@@ -49,4 +49,4 @@ end
 gem 'mysql2'
 gem 'twitter-bootstrap-rails', '~> 3.2'
 gem 'devise'
-
+gem 'tinymce-rails'

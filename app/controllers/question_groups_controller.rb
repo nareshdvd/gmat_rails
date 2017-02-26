@@ -35,7 +35,12 @@ class QuestionGroupsController < ApplicationController
   # POST /question_groups.json
   def create
     @question_group = QuestionGroup.new(question_group_params)
-
+    if @question_group.category.title != "Passages"
+      @question_group.questions.each_with_index do |question, inx|
+        next if inx == 0
+        @question_group.questions.delete(question)
+      end
+    end
     respond_to do |format|
       if @question_group.save
         format.html { redirect_to question_groups_url, notice: 'Question group was successfully created.' }
@@ -79,6 +84,6 @@ class QuestionGroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_group_params
-      params.require(:question_group).permit(:description, :category_id, :level_id, questions_attributes: [:id, :description, :option_count, {options_attributes: [:id, :description]}])
+      params.require(:question_group).permit(:description, :category_id, :level_id, questions_attributes: [:id, :description, :option_count, :explaination, {options_attributes: [:id, :description, :is_correct]}])
     end
 end

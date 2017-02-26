@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205195938) do
+ActiveRecord::Schema.define(version: 20170226143414) do
 
   create_table "candidate_session_question_groups", force: :cascade do |t|
     t.integer  "candidate_session_id", limit: 4
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20170205195938) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "question_group_id", limit: 4
+    t.text     "explaination",      limit: 65535
   end
 
   add_index "questions", ["level_id"], name: "index_questions_on_level_id", using: :btree

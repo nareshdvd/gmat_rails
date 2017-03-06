@@ -68,30 +68,30 @@
   </div>
 </div>
 <script type="text/javascript">
-  var query_params = [];
-  <% request.query_parameters.each do |k, v| %>
-    query_params.push(k + "=" + v)
-  <% end %>
-  $(document).on("ready", function(){
-    $(".pagination").find("li > a").each(function(){
-      var new_query_params = query_params.slice();
-      if($(this).attr("href") != "" &&  $(this).attr("href") != undefined &&  $(this).attr("href") != null){
-        href = $(this).attr("href");
-        var query = href.split("?");
-        var url = query[0];
-        query = query[1]; 
-        if(query != undefined){
-          query = query.split("&")
-          $.each(query, function(){
-            var qp = query.split("=");
-            new_query_params[qp[0]] = new_query_params[1];
-          });
-        }
-        if(!$.isEmptyObject({new_query_params})){
-          new_query_params = new_query_params.join("&");
-          url = url + "?" + new_query_params;
-        }
-      }
-    });
-  });
+  // var query_params = {};
+  // <% request.query_parameters.each do |k, v| %>
+  //   query_params["<%= k %>"] = "<%= v %>";
+  // <% end %>
+  // $(document).on("ready", function(){
+  //   $(".pagination").find("li > a").each(function(){
+  //     var new_query_params = query_params.slice();
+  //     if($(this).attr("href") != "" &&  $(this).attr("href") != undefined &&  $(this).attr("href") != null){
+  //       href = $(this).attr("href");
+  //       var query = href.split("?");
+  //       var url = query[0];
+  //       query = query[1]; 
+  //       if(query != undefined){
+  //         query = query.split("&")
+  //         $.each(query, function(){
+  //           var qp = query.split("=");
+  //           new_query_params[qp[0]] = new_query_params[1];
+  //         });
+  //       }
+  //       if(!$.isEmptyObject({new_query_params})){
+  //         new_query_params = new_query_params.join("&");
+  //         url = url + "?" + new_query_params;
+  //       }
+  //     }
+  //   });
+  // });
 </script>

@@ -7,12 +7,7 @@
     <%= link_to t('.new', :default => t("helpers.links.new")), new_question_group_path, :class => 'btn btn-primary' %>
   </div>
   <div class="col-sm-10">
-    <div class="digg_pagination">
-      <div class="page_info">
-        <%= page_entries_info @question_groups %>
-      </div>
-      <%= will_paginate @question_groups, :container => false %>
-    </div>
+    <%= will_paginate @question_groups, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
 <div class="row">
@@ -71,11 +66,6 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <div class="digg_pagination">
-      <div class="page_info">
-        <%= page_entries_info @question_groups %>
-      </div>
-      <%= will_paginate @question_groups, :container => false %>
-    </div>
+    <%= will_paginate @question_groups, renderer: BootstrapPagination::Rails %>
   </div>
 </div>

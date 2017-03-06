@@ -6,7 +6,6 @@ class QuestionGroupsController < ApplicationController
   def index
     conditions = []
     values = []
-    binding.pry
     if params[:lid].present?
       conditions << "question_groups.level_id = ?"
       values << params[:lid]

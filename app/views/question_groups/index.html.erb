@@ -3,25 +3,27 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 <div class="row">
-  <div class="col-sm-2">
-    <%= link_to t('.new', :default => t("helpers.links.new")), new_question_group_path, :class => 'btn btn-primary' %>
-  </div>
   <div class="col-sm-10">
     <%= will_paginate @question_groups, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-12">
-
+  <div class="col-sm-6">
     <form class="form-inline">
-      <label class="sr-only" for="inlineFormInput">Level</label>
-      <select class="form-control col-sm-4" name="lid">
-        <% @levels.each do |level| %>
-          <option value="<%= level.id %>"><%= level.title %></option>
-        <% end %>
-      </select>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="row">
+        <div class="col-sm-8">
+          <select class="form-control" name="lid" style="width: 100%">
+            <% @levels.each do |level| %>
+              <option value="<%= level.id %>"><%= level.title %></option>
+            <% end %>
+          </select>
+        </div>
+        <button type="submit"  class="btn btn-default">Submit</button>
+      </div>
     </form>
+  </div>
+  <div class="col-sm-6">
+    <%= link_to t('.new', :default => t("helpers.links.new")), new_question_group_path, :class => 'btn btn-primary pull-right' %>
   </div>
 </div>
 <div class="row">
@@ -65,3 +67,31 @@
     <%= will_paginate @question_groups, renderer: BootstrapPagination::Rails %>
   </div>
 </div>
+<script type="text/javascript">
+  var query_params = [];
+  <% request.query_parameters.each do |k, v| %>
+    query_params.push(k + "=" + v)
+  <% end %>
+  $(document).on("ready", function(){
+    $(".pagination").find("li > a").each(function(){
+      var new_query_params = query_params.slice();
+      if($(this).attr("href") != "" &&  $(this).attr("href") != undefined &&  $(this).attr("href") != null){
+        href = $(this).attr("href");
+        var query = href.split("?");
+        var url = query[0];
+        query = query[1]; 
+        if(query != undefined){
+          query = query.split("&")
+          $.each(query, function(){
+            var qp = query.split("=");
+            new_query_params[qp[0]] = new_query_params[1];
+          });
+        }
+        if(!$.isEmptyObject({new_query_params})){
+          new_query_params = new_query_params.join("&");
+          url = url + "?" + new_query_params;
+        }
+      }
+    });
+  });
+</script>

@@ -4,7 +4,11 @@ class QuestionGroupsController < ApplicationController
   # GET /question_groups
   # GET /question_groups.json
   def index
-    @question_groups = QuestionGroup.all
+    if params[:category_id].present?
+      @question_groups = QuestionGroup.preload(:category, :level).all
+    else
+      @question_groups = QuestionGroup.preload(:category, :level).where(category_id: params[:category_id])
+    end
   end
 
   # GET /question_groups/1

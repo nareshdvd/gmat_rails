@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :options
   resources :questions
   resources :levels
-  resources :categories
+  resources :categories do
+    resources :question_groups, only: [:index]
+  end
   root 'admins#dashboard'
   get "passage_questions" => "questions#passage_questions"
   get "passage_questions/new" => "questions#new_passage_question"

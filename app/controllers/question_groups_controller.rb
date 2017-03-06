@@ -4,10 +4,21 @@ class QuestionGroupsController < ApplicationController
   # GET /question_groups
   # GET /question_groups.json
   def index
+    conditions = []
+    values = []
+    if params[:lid].present?
+      conditions << "question_groups.level_id = ?"
+      values << params[:lid]
+    end
     if params[:category_id].present?
-      @question_groups = QuestionGroup.preload(:category, :level).all
+      conditions << "question_groups.category_id = ?"
+      values << params[:category_id]
+    end
+    @levels = Level.all
+    if conditions.present?
+      @question_groups = QuestionGroup.preload(:category, :level).where(conditions.join(" AND "), *values).paginate(:page => params[:page], :per_page => 30)
     else
-      @question_groups = QuestionGroup.preload(:category, :level).where(category_id: params[:category_id])
+      @question_groups = QuestionGroup.preload(:category, :level).paginate(:page => params[:page], :per_page => 30)
     end
   end
 

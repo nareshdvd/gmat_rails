@@ -2,36 +2,80 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<%= link_to t('.new', :default => t("helpers.links.new")), new_question_group_path, :class => 'btn btn-primary' %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:category) %></th>
-      <th><%= model_class.human_attribute_name(:level) %></th>
-      <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @question_groups.each do |question_group| %>
-      <tr>
-        <td><%= link_to question_group.id, question_group_path(question_group) %></td>
-        <td><%= question_group.category.title %></td>
-        <td><%= question_group.level.title %></td>
-        <td><%= question_group.description %></td>
-        <td><%=l question_group.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_question_group_path(question_group), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      question_group_path(question_group),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-sm-2">
+    <%= link_to t('.new', :default => t("helpers.links.new")), new_question_group_path, :class => 'btn btn-primary' %>
+  </div>
+  <div class="col-sm-10">
+    <div class="digg_pagination">
+      <div class="page_info">
+        <%= page_entries_info @question_groups %>
+      </div>
+      <%= will_paginate @question_groups, :container => false %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <form action="" method="GET" class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-6">
+          <select class="form-control" name="lid">
+            <% @levels.each do |level| %>
+              <option value="<%= level.id %>"><%= level.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= model_class.human_attribute_name(:id) %></th>
+          <th><%= model_class.human_attribute_name(:category) %></th>
+          <th><%= model_class.human_attribute_name(:level) %></th>
+          <th><%= model_class.human_attribute_name(:description) %></th>
+          <th><%= model_class.human_attribute_name(:created_at) %></th>
+          <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @question_groups.each do |question_group| %>
+          <tr>
+            <td><%= link_to question_group.id, question_group_path(question_group) %></td>
+            <td><%= question_group.category.title %></td>
+            <td><%= question_group.level.title %></td>
+            <td><%= question_group.description %></td>
+            <td><%=l question_group.created_at %></td>
+            <td>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                          edit_question_group_path(question_group), :class => 'btn btn-default btn-xs' %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                          question_group_path(question_group),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-xs btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="digg_pagination">
+      <div class="page_info">
+        <%= page_entries_info @question_groups %>
+      </div>
+      <%= will_paginate @question_groups, :container => false %>
+    </div>
+  </div>
+</div>

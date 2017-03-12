@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226151845) do
+ActiveRecord::Schema.define(version: 20170307162712) do
 
   create_table "candidate_session_question_groups", force: :cascade do |t|
     t.integer  "candidate_session_id", limit: 4
@@ -60,15 +60,17 @@ ActiveRecord::Schema.define(version: 20170226151845) do
   add_index "options", ["question_id"], name: "index_options_on_question_id", using: :btree
 
   create_table "question_groups", force: :cascade do |t|
-    t.text     "description", limit: 65535
-    t.integer  "category_id", limit: 4
-    t.integer  "level_id",    limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.text     "description",    limit: 65535
+    t.integer  "category_id",    limit: 4
+    t.integer  "level_id",       limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "question_count", limit: 4,     default: 1
   end
 
   add_index "question_groups", ["category_id"], name: "index_question_groups_on_category_id", using: :btree
   add_index "question_groups", ["level_id"], name: "index_question_groups_on_level_id", using: :btree
+  add_index "question_groups", ["question_count"], name: "idx_qcount_on_qgroups", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.text     "description",       limit: 65535
